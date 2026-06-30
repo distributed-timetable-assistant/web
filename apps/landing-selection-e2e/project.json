@@ -1,0 +1,11 @@
+{
+  "name": "landing-selection-e2e",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "projectType": "application",
+  "sourceRoot": "apps/landing-selection-e2e/src",
+  "implicitDependencies": [
+    "landing-selection"
+  ],
+  "// targets": "to see all targets run: nx show project landing-selection-e2e --web",
+  "targets": {}
+}
