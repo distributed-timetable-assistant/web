@@ -1,0 +1,12 @@
+[package]
+name = "dita-state"
+version = "0.1.0"
+edition.workspace = true
+authors.workspace = true
+license.workspace = true
+homepage.workspace = true
+
+[dependencies]
+leptos.workspace = true
+reactive_stores.workspace = true
+leptos-use.workspace = true

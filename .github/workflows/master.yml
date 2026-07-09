@@ -1,0 +1,114 @@
+name: Master Pipeline
+on:
+  push:
+    branches:
+      - master
+
+jobs:
+  common:
+    uses: ./.github/workflows/common.yml
+    secrets: inherit
+
+  build:
+    needs: [ common ]
+    strategy:
+      matrix:
+        app:
+          - name: landing-selection
+            path: ""
+          - name: user-portal
+            path: /user
+          - name: institution-portal
+            path: /institution
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v7
+      - name: Setup Rust
+        uses: actions-rust-lang/setup-rust-toolchain@v1
+        with:
+          toolchain: stable
+          target: wasm32-unknown-unknown
+          rustflags: ""
+      - name: Cache Cargo registry + git + target
+        uses: actions/cache@v4
+        with:
+          path: |
+            ~/.cargo/registry/index
+            ~/.cargo/registry/cache
+            ~/.cargo/git/db
+            target
+          key: ${{ runner.os }}-cargo-${{ matrix.app.name }}-${{ hashFiles('**/Cargo.toml') }}
+          restore-keys: |
+            ${{ runner.os }}-cargo-${{ matrix.app.name }}-
+            ${{ runner.os }}-cargo-
+      - name: Cache trunk binary
+        id: cache-trunk
+        uses: actions/cache@v4
+        with:
+          path: |
+            ~/.cargo/bin/trunk
+            ~/.cargo/.crates.toml
+            ~/.cargo/.crates2.json
+          key: ${{ runner.os }}-trunk-${{ hashFiles('**/Cargo.toml') }}
+          restore-keys: |
+            ${{ runner.os }}-trunk-
+      - name: Install system dependencies for trunk / wasm
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y --no-install-recommends \
+            pkg-config \
+            libssl-dev
+      - name: Install trunk (only if not cached)
+        if: steps.cache-trunk.outputs.cache-hit != 'true'
+        run: cargo install trunk --locked
+      - name: Install pnpm
+        run: |
+          curl -fsSL https://get.pnpm.io/install.sh | ENV="$HOME/.bashrc" SHELL="$(which bash)" bash -
+          echo "PNPM_HOME=$HOME/.local/share/pnpm" >> $GITHUB_ENV
+          echo "$HOME/.local/share/pnpm/bin" >> $GITHUB_PATH
+      - name: Get pnpm store directory
+        id: pnpm-cache
+        shell: bash
+        run: |
+          echo "STORE_PATH=$(pnpm store path --silent)" >> $GITHUB_OUTPUT
+      - name: Cache pnpm store
+        uses: actions/cache@v4
+        with:
+          path: ${{ steps.pnpm-cache.outputs.STORE_PATH }}
+          key: ${{ runner.os }}-pnpm-store-${{ hashFiles('**/pnpm-lock.yaml') }}
+          restore-keys: |
+           ${{ runner.os }}-pnpm-store-
+      - name: Build
+        env:
+          APP: ${{ matrix.app.name }}
+          TRUNK_BUILD_DIST: dist${{ matrix.app.path }}
+          TRUNK_BUILD_PUBLIC_URL: ${{ matrix.app.path }}
+        run: trunk build --release
+      - name: Upload Static Pages
+        uses: actions/upload-artifact@v7
+        with:
+          name: static-pages-${{ matrix.app.name }}
+          path: dist
+
+  deploy-github-pages:
+    needs: [ build ]
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v7
+      - name: Download Static Pages
+        uses: actions/download-artifact@v8
+        with:
+          pattern: static-pages-*
+          path: dist
+          merge-multiple: true
+      - name: Add 404 Page
+        working-directory: dist
+        run: cp index.html 404.html
+      - name: Deploy To The Github Pages
+        uses: JamesIves/github-pages-deploy-action@releases/v4
+        with:
+          branch: gh-pages
+          folder: dist
+          force: false
