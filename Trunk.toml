@@ -1,0 +1,37 @@
+[build]
+target = "index.html"
+dist = "dist"
+
+[[hooks]]
+stage = "pre_build"
+command = "bash"
+command_arguments = [
+    "-c",
+    """
+    APP=${APP:-landing-selection}
+    case "$APP" in
+      landing-selection|user-portal|institution-portal)
+        ;;
+      *)
+        echo "Unknown APP: $APP (allowed: landing-selection, user-portal, institution-portal)"
+        exit 1
+        ;;
+    esac
+    SEARCH_PATTERN="(link data-trunk rel=\\"rust\\" data-bin=\\").*(\\" href=\\"apps/).*(/Cargo.toml\\" data-wasm-opt=.*)"
+    REPLACE_PATTERN="\\1${APP}\\2${APP}\\3"
+    sed -i -E "s|$SEARCH_PATTERN|$REPLACE_PATTERN|" index.html
+    """
+]
+
+[[hooks]]
+stage = "pre_build"
+command = "bash"
+command_arguments = [
+    "-c",
+    """
+    pnpm dlx @tailwindcss/cli \
+      -i styles/tailwind-source.css \
+      -o "assets/tailwind.css" \
+      --minify
+    """
+]
