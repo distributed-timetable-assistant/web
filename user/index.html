@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en" class="dark h-full w-full">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>DiTA</title>
+    
+<script type="module">
+import init, * as bindings from '/user-portal-470a77d0ba36e694.js';
+const wasm = await init({ module_or_path: '/user-portal-470a77d0ba36e694_bg.wasm' });
+
+
+window.wasmBindings = bindings;
+
+
+dispatchEvent(new CustomEvent("TrunkApplicationStarted", {detail: {wasm}}));
+
+</script>
+    <link rel="stylesheet" href="/tailwind-f1051102ac9fa443.css" integrity="sha384-HwaQUgTIMWM/dCXvFuCHEiQCkNNcDgtuhcWnzV/EW8m1G/2ClU3FWVMzsHLb0TnQ"/>
+<link rel="modulepreload" href="/user-portal-470a77d0ba36e694.js" crossorigin="anonymous" integrity="sha384-/+0tv8Akllt9h36MkFbcGW1HIujVgm3elMB+FqHQoApEBTyKC1xg5MBXjYmjWEOL"><link rel="preload" href="/user-portal-470a77d0ba36e694_bg.wasm" crossorigin="anonymous" integrity="sha384-nCFgh1q7Z89jY/LYdYkUbuHjHsKzA0ausBzK4YzsluRcCLASMXJOEtnOiy+MU944" as="fetch" type="application/wasm"></head>
+<body class="bg-background text-foreground transition-colors duration-100 h-full w-full"></body>
+</html>
