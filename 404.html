@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en" class="dark h-full w-full">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>DiTA</title>
+    
+<script type="module">
+import init, * as bindings from '/landing-selection-cae45db728550a78.js';
+const wasm = await init({ module_or_path: '/landing-selection-cae45db728550a78_bg.wasm' });
+
+
+window.wasmBindings = bindings;
+
+
+dispatchEvent(new CustomEvent("TrunkApplicationStarted", {detail: {wasm}}));
+
+</script>
+    <link rel="stylesheet" href="/tailwind-9e687a435fe652ad.css" integrity="sha384-Kp94B47pBAbzM/q00iSDaOpsASVQOVYYkYqk+UBRzgbUO8BHr27GHbl40ergH2pF"/>
+<link rel="modulepreload" href="/landing-selection-cae45db728550a78.js" crossorigin="anonymous" integrity="sha384-aNrlatXTiWEchtzpiDII670JQYaKtKjUVlTJJUYJMHja6e8pr7YD/TdaliXSNVmG"><link rel="preload" href="/landing-selection-cae45db728550a78_bg.wasm" crossorigin="anonymous" integrity="sha384-qghYhKKWIndK+d8UvLEreVczhJWTgbrC6QamdZb2EJ1k1v6dKtsWf8jbZ0kV8lyA" as="fetch" type="application/wasm"></head>
+<body class="bg-background text-foreground transition-colors duration-100 h-full w-full"></body>
+</html>
