@@ -791,7 +791,7 @@ function __wbg_get_imports() {
     };
     return {
         __proto__: null,
-        "./institution-portal_bg.js": import0,
+        "./user-portal_bg.js": import0,
     };
 }
 
@@ -1138,7 +1138,7 @@ async function __wbg_init(module_or_path) {
     }
 
     if (module_or_path === undefined) {
-        module_or_path = new URL('institution-portal_bg.wasm', import.meta.url);
+        module_or_path = new URL('user-portal_bg.wasm', import.meta.url);
     }
     const imports = __wbg_get_imports();
 
