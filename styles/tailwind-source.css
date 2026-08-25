@@ -4,7 +4,6 @@
 @source "../../../crates/**/src/**/*.rs";
 
 @theme {
-    --color-background: var(--background);
     --color-foreground: var(--foreground);
     --color-card: var(--card);
     --color-card-foreground: var(--card-foreground);
@@ -29,7 +28,7 @@
     :root {
         --radius: 0.5rem;
         --font-sans: 'Inter', sans-serif;
-        --background: oklch(0.848 0 0);
+        --bg-gradient: radial-gradient(circle at top, #ffffff 0%, #b4b4b4 100%);
         --foreground: oklch(0.235 0 0);
         --card: oklch(0.802 0 0);
         --card-foreground: oklch(0.145 0 0);
@@ -46,19 +45,10 @@
         --primary-foreground: oklch(0.786 0.022 196.714);
         --secondary: oklch(0.77 0 0);
         --secondary-foreground: oklch(0.21 0.006 285.885);
-        --chart-1: oklch(0.855 0.138 181.071);
-        --chart-2: oklch(0.704 0.14 182.503);
-        --chart-3: oklch(0.6 0.118 184.704);
-        --chart-4: oklch(0.511 0.096 186.391);
-        --chart-5: oklch(0.437 0.078 188.216);
-        --sidebar-primary: oklch(0.6 0.118 184.704);
-        --sidebar-primary-foreground: oklch(0.794 0.011 196.933);
-        --sidenav-primary: oklch(0.6 0.118 184.704);
-        --sidenav-primary-foreground: oklch(0.794 0.011 196.933);
     }
 
     .dark {
-        --background: oklch(0.235 0 0);
+        --bg-gradient: radial-gradient(circle at top, #282828 0%, #000000 100%);
         --foreground: oklch(0.848 0 0);
         --card: oklch(0.205 0 0);
         --card-foreground: oklch(0.802 0 0);
@@ -75,14 +65,10 @@
         --primary-foreground: oklch(0.794 0.011 196.933);
         --secondary: oklch(0.274 0.006 286.033);
         --secondary-foreground: oklch(0.802 0 0);
-        --chart-1: oklch(0.855 0.138 181.071);
-        --chart-2: oklch(0.704 0.14 182.503);
-        --chart-3: oklch(0.6 0.118 184.704);
-        --chart-4: oklch(0.511 0.096 186.391);
-        --chart-5: oklch(0.437 0.078 188.216);
-        --sidebar-primary: oklch(0.704 0.14 182.503);
-        --sidebar-primary-foreground: oklch(0.277 0.046 192.524);
-        --sidenav-primary: oklch(0.704 0.14 182.503);
-        --sidenav-primary-foreground: oklch(0.277 0.046 192.524);
+    }
+
+    body {
+        background-image: var(--bg-gradient);
+        background-attachment: fixed;
     }
 }
