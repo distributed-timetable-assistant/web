@@ -28,7 +28,7 @@
     :root {
         --radius: 0.5rem;
         --font-sans: 'Inter', sans-serif;
-        --bg-gradient: radial-gradient(circle at top, #ffffff 0%, #b4b4b4 100%);
+        --bg-gradient: radial-gradient(circle at bottom right, #cdcdcd 0%, #fafafa 100%);
         --foreground: oklch(0.235 0 0);
         --card: oklch(0.802 0 0);
         --card-foreground: oklch(0.145 0 0);
@@ -48,7 +48,7 @@
     }
 
     .dark {
-        --bg-gradient: radial-gradient(circle at top, #282828 0%, #000000 100%);
+        --bg-gradient: radial-gradient(circle at bottom right, #0e2503 0%, #000000 100%);
         --foreground: oklch(0.848 0 0);
         --card: oklch(0.205 0 0);
         --card-foreground: oklch(0.802 0 0);

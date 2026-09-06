@@ -28,10 +28,3 @@ where
 
     init
 }
-
-pub fn provide<T>(key: &str)
-where
-    T: PartialEq + Clone + Default + Send + Sync + DeserializeOwned + Serialize + 'static,
-{
-    let _ = init_ctx::<T>(key);
-}

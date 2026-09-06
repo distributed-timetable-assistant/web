@@ -1,9 +1,9 @@
-use dita_design_system::hooks::header::HeaderMode;
+use dita_design_system::hooks::header::HeaderState;
 use leptos::prelude::*;
 
 #[component]
 pub fn ResourcesPage() -> impl IntoView {
-    let header_ctx = HeaderMode::new();
+    let header_ctx = HeaderState::new();
     header_ctx.set_page_title("Resources".into());
 
     view! {

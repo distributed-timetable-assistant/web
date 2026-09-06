@@ -1,15 +1,14 @@
-use dita_core::common::components::section_sidenav::{
-    Section, SectionData, SectionGroup, create_section_sidenav,
+use dita_core::common::components::section_sidenav::{Section, SectionData, SectionGroup};
+use icons::{
+    Award, BookMarked, BookOpenText, CalendarCheck, Key, Presentation, Table2, User, Wallet,
 };
-use icons::common::IconType;
 use leptos::prelude::*;
 
-#[component]
-pub fn SectionSidenav() -> impl IntoView {
-    let section_data: SectionData = SectionData {
+pub fn get_section_data() -> SectionData {
+    SectionData {
         app_title: "User".to_string(),
         platform_title: "Dita Platform".to_string(),
-        app_icon: IconType::User,
+        app_icon: || view! {<User/>}.into_any(),
         section_groups: vec![
             SectionGroup {
                 title: "User".to_string(),
@@ -17,37 +16,37 @@ pub fn SectionSidenav() -> impl IntoView {
                     Section {
                         title: "Calendar".to_string(),
                         path: "calendar".to_string(),
-                        icon: IconType::CalendarCheck,
+                        icon: || view! {<CalendarCheck/>}.into_any(),
                     },
                     Section {
                         title: "Capabilities".to_string(),
                         path: "capabilities".to_string(),
-                        icon: IconType::Key,
+                        icon: || view! {<Key/>}.into_any(),
                     },
                     Section {
                         title: "Subjects".to_string(),
                         path: "subjects".to_string(),
-                        icon: IconType::BookMarked,
+                        icon: || view! {<BookMarked/>}.into_any(),
                     },
                     Section {
                         title: "Resources".to_string(),
                         path: "resources".to_string(),
-                        icon: IconType::BookOpenText,
+                        icon: || view! {<BookOpenText/>}.into_any(),
                     },
                     Section {
                         title: "Courses".to_string(),
                         path: "courses".to_string(),
-                        icon: IconType::Presentation,
+                        icon: || view! {<Presentation/>}.into_any(),
                     },
                     Section {
                         title: "Qualifications".to_string(),
                         path: "qualifications".to_string(),
-                        icon: IconType::Award,
+                        icon: || view! {<Award/>}.into_any(),
                     },
                     Section {
                         title: "Timetable".to_string(),
                         path: "timetable".to_string(),
-                        icon: IconType::Table2,
+                        icon: || view! {<Table2/>}.into_any(),
                     },
                 ],
             },
@@ -56,10 +55,9 @@ pub fn SectionSidenav() -> impl IntoView {
                 sections: vec![Section {
                     title: "Wallet".to_string(),
                     path: "wallet".to_string(),
-                    icon: IconType::Wallet,
+                    icon: || view! {<Wallet/>}.into_any(),
                 }],
             },
         ],
-    };
-    create_section_sidenav(section_data)
+    }
 }

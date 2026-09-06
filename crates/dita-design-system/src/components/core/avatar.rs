@@ -2,10 +2,6 @@ use leptos::prelude::*;
 use leptos_ui::clx;
 use tw_merge::tw_merge;
 
-/* ========================================================== */
-/*                       Enums                                */
-/* ========================================================== */
-
 #[derive(Clone, Copy, PartialEq, Eq, Default)]
 pub enum AvatarSize {
     Sm,
@@ -13,10 +9,6 @@ pub enum AvatarSize {
     Default,
     Lg,
 }
-
-/* ========================================================== */
-/*                     Components (clx!)                      */
-/* ========================================================== */
 
 mod components {
     use super::*;
@@ -38,10 +30,6 @@ pub fn AvatarBadge(
     );
     view! { <span class=merged_class>{children.map(|c| c())}</span> }
 }
-
-/* ========================================================== */
-/*                     ✨ FUNCTIONS ✨                        */
-/* ========================================================== */
 
 #[component]
 pub fn Avatar(
@@ -69,7 +57,10 @@ pub fn Avatar(
 
 #[component]
 pub fn AvatarImage(#[prop(into, optional)] class: String) -> impl IntoView {
-    let merged_class = tw_merge!("absolute inset-0 aspect-square size-full z-10 rounded-full object-cover", class);
+    let merged_class = tw_merge!(
+        "absolute inset-0 aspect-square size-full z-10 rounded-full object-cover",
+        class
+    );
     let node_ref = NodeRef::<leptos::html::Img>::new();
 
     view! {

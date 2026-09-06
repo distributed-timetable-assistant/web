@@ -7,3 +7,15 @@ license.workspace = true
 homepage.workspace = true
 
 [dependencies]
+leptos_oidc2.workspace = true
+leptos.workspace = true
+leptos_router.workspace = true
+gloo-net.workspace = true
+dita-state.workspace = true
+thiserror.workspace = true
+serde.workspace = true
+web-sys.workspace = true
+codee = "0.3"
+leptos-use.workspace = true
+url.workspace = true
+

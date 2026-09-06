@@ -1,26 +1,24 @@
 use crate::common::components::app_card::AppCard;
 use dita_design_system::components::sidenav::layout::*;
-use icons::common::IconType;
-use icons::icon_component::LeptosIcon;
 use leptos::prelude::*;
 
-#[derive(Debug)]
+#[derive(Clone)]
 pub struct SectionData {
     pub app_title: String,
     pub platform_title: String,
-    pub app_icon: IconType,
+    pub app_icon: fn() -> AnyView,
     pub section_groups: Vec<SectionGroup>,
 }
-#[derive(Debug)]
+#[derive(Clone)]
 pub struct SectionGroup {
     pub title: String,
     pub sections: Vec<Section>,
 }
-#[derive(Debug)]
+#[derive(Clone)]
 pub struct Section {
     pub title: String,
     pub path: String,
-    pub icon: IconType,
+    pub icon: fn() -> AnyView,
 }
 
 pub fn create_section_sidenav(section_data: SectionData) -> impl IntoView {
@@ -36,22 +34,6 @@ pub fn create_section_sidenav(section_data: SectionData) -> impl IntoView {
     }
 }
 
-fn create_sections(sections: Vec<Section>) -> impl IntoView {
-    sections
-        .into_iter()
-        .map(|section| {
-            view! {
-                <SidenavMenuItem>
-                    <SidenavLink href={section.path}>
-                        <LeptosIcon icon={section.icon} />
-                        <h4 class="pt-1 text-xs font-medium">{section.title}</h4>
-                    </SidenavLink>
-                </SidenavMenuItem>
-            }
-        })
-        .collect_view()
-}
-
 fn create_section_groups(section_groups: Vec<SectionGroup>) -> impl IntoView {
     section_groups
         .into_iter()
@@ -65,6 +47,23 @@ fn create_section_groups(section_groups: Vec<SectionGroup>) -> impl IntoView {
                         </SidenavMenu>
                     </SidenavGroupContent>
                 </SidenavGroup>
+            }
+        })
+        .collect_view()
+}
+
+fn create_sections(sections: Vec<Section>) -> impl IntoView {
+    sections
+        .into_iter()
+        .map(|section| {
+            let icon = section.icon;
+            view! {
+                <SidenavMenuItem>
+                    <SidenavLink href={section.path.clone()}>
+                        {icon()}
+                        <h4 class="pt-1 text-xs font-medium">{section.title}</h4>
+                    </SidenavLink>
+                </SidenavMenuItem>
             }
         })
         .collect_view()

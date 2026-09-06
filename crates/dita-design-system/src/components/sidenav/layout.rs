@@ -36,7 +36,7 @@ mod components {
     }
 }
 
-use crate::hooks::sidenav::SidenavMode;
+use crate::hooks::sidenav::SidenavState;
 pub use components::*;
 
 #[derive(Clone, Copy, PartialEq, Eq, Default, strum::Display, strum::IntoStaticStr)]
@@ -48,7 +48,7 @@ pub enum SidenavVariant {
 }
 
 #[derive(Clone, Copy, PartialEq, Eq, Default, strum::Display)]
-pub enum SidenavState {
+pub enum SidenavMode {
     #[default]
     Expanded,
     Collapsed,
@@ -73,12 +73,12 @@ pub enum SidenavCollapsible {
 pub fn Sidenav(
     #[prop(into, optional)] class: String,
     #[prop(default = SidenavVariant::default())] variant: SidenavVariant,
-    #[prop(default = SidenavState::default())] data_state: SidenavState,
+    #[prop(default = SidenavMode::default())] data_state: SidenavMode,
     #[prop(default = SidenavSide::default())] data_side: SidenavSide,
     #[prop(default = SidenavCollapsible::default())] data_collapsible: SidenavCollapsible,
     children: Children,
 ) -> impl IntoView {
-    let sidenav_ctx = SidenavMode::new();
+    let sidenav_ctx = SidenavState::new();
 
     view! {
         {if data_collapsible == SidenavCollapsible::None {

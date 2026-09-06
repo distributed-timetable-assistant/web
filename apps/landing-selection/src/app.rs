@@ -1,29 +1,38 @@
-use crate::routes::AppRoutes;
-use crate::section_sidenav::SectionSidenav;
-use crate::state;
-use dita_core::common::components::sidebar::Sidebar;
-use dita_design_system::components::header::layout::Header;
+use crate::pages::home::HomePage;
+use crate::section_sidenav::get_section_data;
+use dita_core::common::app::{AppBase, AppBaseProps};
+use dita_core::common::pages::wallet::WalletPage;
+use dita_core::routes;
+use dita_design_system::hooks::header::Crumb;
+use dita_state::app_state::AppState;
 use leptos::prelude::*;
-use leptos_router::components::Router;
+use leptos_router::components::Redirect;
 
 const PUBLIC_URL: Option<&'static str> = option_env!("TRUNK_BUILD_PUBLIC_URL");
 
 #[component]
 pub fn App() -> impl IntoView {
-    state::init();
-
-    view! {
-        <Router base=PUBLIC_URL.unwrap_or_default()>
-            <div class="flex h-full w-full" style="--sidenav-width:12rem;--sidenav-width-icon:3rem">
-                <Sidebar/>
-                <SectionSidenav/>
-                <div class="flex flex-1 flex-col">
-                    <Header />
-                    <div class="min-h-0 flex-1 overflow-y-auto">
-                        <AppRoutes/>
-                    </div>
-                </div>
-            </div>
-        </Router>
-    }
+    let crumbs = vec![
+        Crumb {
+            title: "Dita".into(),
+            path: "/".into(),
+        },
+        Crumb {
+            title: "Landing Selection".into(),
+            path: "/".into(),
+        },
+    ];
+    AppBase(
+        AppBaseProps::builder()
+            .state_builder(AppState::builder())
+            .base(PUBLIC_URL.unwrap_or_default())
+            .base_crumbs(crumbs)
+            .section_data(get_section_data())
+            .routes(routes![
+                "/apps" => HomePage,
+                "/wallet" => WalletPage,
+                "/" => || view! { <Redirect path="/apps"/> },
+            ])
+            .build(),
+    )
 }

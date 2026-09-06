@@ -16,10 +16,6 @@ mod components {
 
 pub use components::*;
 
-/* ========================================================== */
-/*                     ✨ FUNCTIONS ✨                        */
-/* ========================================================== */
-
 #[component]
 pub fn BreadcrumbSeparator(
     #[prop(into, optional)] class: String,
@@ -37,7 +33,6 @@ pub fn BreadcrumbSeparator(
 
 #[component]
 pub fn BreadcrumbPage(#[prop(into, optional)] class: String, children: Children) -> impl IntoView {
-    // TODO. aria_disabled
     view! {
         <RootPage class=class attr:role="link" attr:aria-disabled="true" attr:aria-current="page">
             {children()}
@@ -47,7 +42,6 @@ pub fn BreadcrumbPage(#[prop(into, optional)] class: String, children: Children)
 
 #[component]
 pub fn BreadcrumbEllipsis(#[prop(into, optional)] class: String) -> impl IntoView {
-    // TODO. data_state
     view! {
         <RootEllipsisBtn attr:aria-haspopup="menu" attr:aria-expanded="false" attr:data-state="closed">
             <RootEllipsis attr:role="presentation" attr:aria-hidden="true">
@@ -58,4 +52,3 @@ pub fn BreadcrumbEllipsis(#[prop(into, optional)] class: String) -> impl IntoVie
         </RootEllipsisBtn>
     }
 }
-
