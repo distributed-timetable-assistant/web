@@ -22,16 +22,3 @@ command_arguments = [
     sed -i -E "s|$SEARCH_PATTERN|$REPLACE_PATTERN|" index.html
     """
 ]
-
-[[hooks]]
-stage = "pre_build"
-command = "bash"
-command_arguments = [
-    "-c",
-    """
-    pnpm dlx @tailwindcss/cli \
-      -i styles/tailwind-source.css \
-      -o "assets/tailwind.css" \
-      --minify
-    """
-]

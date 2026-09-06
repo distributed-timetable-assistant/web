@@ -7,9 +7,17 @@ use serde::{Deserialize, Serialize};
 
 const LOCALSTORAGE_KEY: &str = "theme";
 
-#[derive(Debug, Clone, Copy, Default, Store, Serialize, Deserialize, PartialEq)]
+#[derive(Debug, Clone, Copy, Store, Serialize, Deserialize, PartialEq)]
 struct ThemeContext {
     pub dark_mode: bool,
+}
+
+impl Default for ThemeContext {
+    fn default() -> Self {
+        Self {
+            dark_mode: true,
+        }
+    }
 }
 
 #[derive(Debug, Clone, Copy)]
