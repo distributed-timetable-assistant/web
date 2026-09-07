@@ -35,5 +35,6 @@ thiserror = "^2.0"
 oauth2 = "^5.0"
 url = "^2.5"
 
+# TODO issue #4
 [patch.crates-io]
 leptos_oidc2 = { git = "https://github.com/BackendD/leptos_oidc2", branch = "main" }

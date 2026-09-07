@@ -47,7 +47,6 @@ pub enum AccordionTriggerIcon {
 pub fn AccordionTrigger(
     #[prop(into, optional)] class: String,
     #[prop(default = false)] open: bool,
-    // TODO. AccrodionTriggerIcon
     children: Children,
 ) -> impl IntoView {
     let accordion_id = use_random_id();

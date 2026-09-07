@@ -1,8 +1,6 @@
 use leptos::prelude::*;
 use leptos_ui::variants;
 
-// TODO 💪 Loading state (demo_use_timeout_fn.rs and demo_button.rs)
-
 variants! {
     Button {
         base: r#"inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md
