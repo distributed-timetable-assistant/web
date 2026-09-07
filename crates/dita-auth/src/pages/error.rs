@@ -11,7 +11,6 @@ pub fn AuthErrorPage() -> impl IntoView {
     let on_retry = move |_| auth.login();
 
     let error_message = move || match status.get() {
-        AuthStatus::StateError(err) => err.to_string(),
         AuthStatus::Error(err) => err.to_string(),
         _ => "An unknown authentication error occurred.".to_string(),
     };

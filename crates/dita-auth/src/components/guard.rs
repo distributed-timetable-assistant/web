@@ -1,20 +1,6 @@
 use crate::hooks::auth::{AuthState, AuthStatus};
 use crate::pages::loading::AuthLoadingPage;
 use crate::state_mgmt::store_target_destination;
-/// `RequireAuth` – a reusable route guard for DiTA applications.
-///
-/// Wrap any protected route content (such as `AppShell` and `Outlet`) in `<RequireAuth>` to enforce
-/// authentication. Header, sidebar, and application shell are never rendered while authentication is
-/// unresolved, canceled, or failed.
-///
-/// | State          | Behavior                                       |
-/// |----------------|------------------------------------------------|
-/// | Loading        | Render in-place loading UI                     |
-/// | Authenticated  | Render children (AppShell)                     |
-/// | Unauthenticated| Trigger login redirect (once)                  |
-/// | LoginCancelled | Navigate to /canceled                          |
-/// | StateError     | Navigate to /error                             |
-/// | Error          | Navigate to /error                             |
 use leptos::prelude::*;
 use leptos_router::NavigateOptions;
 use leptos_router::hooks::{use_location, use_navigate};
@@ -46,18 +32,8 @@ pub fn RequireAuth(children: ChildrenFn) -> impl IntoView {
         }
     });
 
-    Effect::new(move |_| match status.get() {
-        AuthStatus::LoginCanceled => {
-            navigate(
-                "canceled",
-                NavigateOptions {
-                    resolve: true,
-                    replace: true,
-                    ..Default::default()
-                },
-            );
-        }
-        AuthStatus::Error(_) | AuthStatus::StateError(_) => {
+    Effect::new(move |_|
+        if matches!(status.get(), AuthStatus::Error(_)) {
             navigate(
                 "error",
                 NavigateOptions {
@@ -67,8 +43,7 @@ pub fn RequireAuth(children: ChildrenFn) -> impl IntoView {
                 },
             );
         }
-        _ => {}
-    });
+    );
 
     view! {
         {move || match status.get() {

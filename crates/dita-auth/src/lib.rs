@@ -9,5 +9,4 @@ pub mod state_mgmt;
 pub use api::{ApiError, DitaClient};
 pub use components::guard::RequireAuth;
 pub use hooks::auth::{AuthState, AuthStatus};
-pub use pages::{AuthCallbackPage, AuthCancelledPage, AuthErrorPage, AuthLoadingPage};
-pub use state_mgmt::StateValidationError;
+pub use pages::{AuthCallbackPage, AuthErrorPage, AuthLoadingPage};

@@ -1,29 +1,9 @@
-/// OAuth2 state management for OIDC Authorization Code + PKCE flow.
-///
-/// Implements the complete OAuth2/OIDC state lifecycle:
-/// 1. Generate a cryptographically random state parameter using `oauth2::CsrfToken::new_random()`.
-/// 2. Persist it in `sessionStorage` (under key `oauth_state`) via `leptos_use::storage::use_session_storage`.
-/// 3. Inject it into the authorization redirect URL (`&state=...`).
-/// 4. Intercept the callback query parameter `state` and validate against stored state.
-/// 5. Reject missing/mismatched state with a clear `StateMismatch` / `MissingState` error.
-/// 6. Clear state from storage upon validation to prevent replay attacks.
 use codee::string::JsonSerdeCodec;
 use leptos::prelude::*;
 use leptos_use::storage::use_session_storage;
-use thiserror::Error;
 
 pub const OAUTH_STATE_KEY: &str = "oauth_state";
 pub const RETURN_TO_KEY: &str = "dita_auth_return_to";
-
-#[derive(Debug, Clone, Error, PartialEq, Eq)]
-pub enum StateValidationError {
-    #[error("Missing OAuth2 state parameter in callback URL")]
-    MissingStateInCallback,
-    #[error("Missing expected OAuth2 state in session storage")]
-    MissingStoredState,
-    #[error("OAuth2 state mismatch (possible CSRF attempt)")]
-    StateMismatch,
-}
 
 /// Validates whether a given path string is a safe, relative internal application route.
 ///

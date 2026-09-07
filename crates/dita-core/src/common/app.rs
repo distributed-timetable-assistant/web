@@ -1,7 +1,7 @@
 use crate::common::components::section_sidenav::{SectionData, create_section_sidenav};
 use crate::common::components::sidebar::Sidebar;
 use crate::common::pages::not_found::NotFound;
-use dita_auth::{AuthCallbackPage, AuthCancelledPage, AuthErrorPage, AuthState, RequireAuth};
+use dita_auth::{AuthCallbackPage, AuthErrorPage, AuthState, RequireAuth};
 use dita_design_system::components::header::layout::Header;
 use dita_design_system::hooks::header::{Crumb, HeaderState};
 use dita_design_system::hooks::sidenav::SidenavState;
@@ -43,12 +43,6 @@ where
                                     RouteProps::builder()
                                         .path(StaticSegment("/error"))
                                         .view(AuthErrorPage)
-                                        .build(),
-                                ),
-                                Route(
-                                    RouteProps::builder()
-                                        .path(StaticSegment("/canceled"))
-                                        .view(AuthCancelledPage)
                                         .build(),
                                 ),
                                 ParentRoute(
