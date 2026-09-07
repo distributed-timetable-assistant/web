@@ -7,7 +7,9 @@ license.workspace = true
 homepage.workspace = true
 
 [dependencies]
+dita-state.workspace = true
 dita-design-system.workspace = true
+dita-auth.workspace = true
 leptos.workspace = true
 leptos_ui.workspace = true
 icons.workspace = true

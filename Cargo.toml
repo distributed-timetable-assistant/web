@@ -17,7 +17,7 @@ dita-state = { path = "crates/dita-state" }
 dita-design-system = { path = "crates/dita-design-system" }
 dita-auth = { path = "crates/dita-auth" }
 console_error_panic_hook = "0.1"
-leptos = { version = "0.8", features = ["csr"]}
+leptos = { version = "0.8", features = ["csr"] }
 leptos_router = "0.8"
 leptos_meta = "0.8"
 leptos_ui = "0.3"
@@ -29,3 +29,12 @@ web-sys = { version = "0.3", features = ["Storage", "Window", "MediaQueryList"] 
 strum = "0.28"
 serde = "^1.0"
 serde_json = "^1.0"
+leptos_oidc2 = { version = "0.11" }
+gloo-net = "0.7"
+thiserror = "^2.0"
+oauth2 = "^5.0"
+url = "^2.5"
+
+# TODO issue #4
+[patch.crates-io]
+leptos_oidc2 = { git = "https://github.com/BackendD/leptos_oidc2", branch = "main" }

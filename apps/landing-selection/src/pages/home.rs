@@ -1,6 +1,6 @@
 use dita_design_system::components::core::button::{Button, ButtonVariant};
 use dita_design_system::components::core::card::components::{CardGroup, IconWrapper};
-use dita_design_system::hooks::header::HeaderMode;
+use dita_design_system::hooks::header::HeaderState;
 use icons::common::IconType;
 use icons::icon_component::LeptosIcon;
 use leptos::prelude::*;
@@ -16,7 +16,7 @@ struct Portal {
 
 #[component]
 pub fn HomePage() -> impl IntoView {
-    let header_ctx = HeaderMode::new();
+    let header_ctx = HeaderState::new();
     header_ctx.set_page_title("Apps".into());
 
     let portals = vec![

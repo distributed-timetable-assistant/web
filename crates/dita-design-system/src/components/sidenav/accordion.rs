@@ -16,11 +16,14 @@ mod components {
     clx! {AccordionLink, a, "grid gap-2.5 items-center p-2 grid-cols-[auto_1fr] [&_svg:not([class*='size-'])]:size-4 hover:bg-muted"}
 }
 
-pub use components::*;
 use crate::hooks::use_random::use_random_id;
+pub use components::*;
 
 #[component]
-pub fn AccordionContent(#[prop(into, optional)] class: String, children: Children) -> impl IntoView {
+pub fn AccordionContent(
+    #[prop(into, optional)] class: String,
+    children: Children,
+) -> impl IntoView {
     let merged_class = tw_merge!("p-3 pt-0", class);
 
     view! {
@@ -44,7 +47,6 @@ pub enum AccordionTriggerIcon {
 pub fn AccordionTrigger(
     #[prop(into, optional)] class: String,
     #[prop(default = false)] open: bool,
-    // TODO. AccrodionTriggerIcon
     children: Children,
 ) -> impl IntoView {
     let accordion_id = use_random_id();

@@ -16,10 +16,6 @@ pub fn Separator(
     view! { <div class=merged_class role="separator" /> }
 }
 
-/* ========================================================== */
-/*                       🧬 STRUCT 🧬                         */
-/* ========================================================== */
-
 #[derive(TwClass, Default)]
 #[tw(class = "shrink-0 bg-border")]
 pub struct SeparatorClass {

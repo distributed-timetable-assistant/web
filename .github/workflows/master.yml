@@ -62,29 +62,17 @@ jobs:
       - name: Install trunk (only if not cached)
         if: steps.cache-trunk.outputs.cache-hit != 'true'
         run: cargo install trunk --locked
-      - name: Install pnpm
-        run: |
-          curl -fsSL https://get.pnpm.io/install.sh | ENV="$HOME/.bashrc" SHELL="$(which bash)" bash -
-          echo "PNPM_HOME=$HOME/.local/share/pnpm" >> $GITHUB_ENV
-          echo "$HOME/.local/share/pnpm/bin" >> $GITHUB_PATH
-      - name: Get pnpm store directory
-        id: pnpm-cache
-        shell: bash
-        run: |
-          echo "STORE_PATH=$(pnpm store path --silent)" >> $GITHUB_OUTPUT
-      - name: Cache pnpm store
-        uses: actions/cache@v4
-        with:
-          path: ${{ steps.pnpm-cache.outputs.STORE_PATH }}
-          key: ${{ runner.os }}-pnpm-store-${{ hashFiles('**/pnpm-lock.yaml') }}
-          restore-keys: |
-           ${{ runner.os }}-pnpm-store-
       - name: Build
         env:
           APP: ${{ matrix.app.name }}
           TRUNK_BUILD_DIST: dist${{ matrix.app.path }}
           TRUNK_BUILD_PUBLIC_URL: ${{ matrix.app.path }}
+          DITA_OIDC_REDIRECT_URI: "https://web.st.dita.hasankarimi.ir${{ matrix.app.path }}/callback"
+          DITA_OIDC_POST_LOGOUT_URI: "https://web.st.dita.hasankarimi.ir${{ matrix.app.path }}/"
         run: trunk build --release
+      - name: Add Callback Page
+        working-directory: dist
+        run: cp .${{ matrix.app.path }}/index.html .${{ matrix.app.path }}/callback.html
       - name: Upload Static Pages
         uses: actions/upload-artifact@v7
         with:

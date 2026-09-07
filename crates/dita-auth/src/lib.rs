@@ -1,4 +1,12 @@
-// Auth utilities - OIDC with Ory placeholder
-pub fn init_auth() {
-    // TODO: Integrate Ory OIDC
-}
+pub mod api;
+pub mod components;
+pub mod config;
+pub mod hooks;
+pub mod pages;
+pub mod state_mgmt;
+
+// Public re-exports for application code
+pub use api::{ApiError, DitaClient};
+pub use components::guard::RequireAuth;
+pub use hooks::auth::{AuthState, AuthStatus};
+pub use pages::{AuthCallbackPage, AuthErrorPage, AuthLoadingPage};

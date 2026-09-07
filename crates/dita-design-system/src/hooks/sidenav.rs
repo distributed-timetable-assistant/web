@@ -1,9 +1,9 @@
+use dita_state::app_state::StateProvider;
+use dita_state::persist_state::{init_ctx, use_ctx};
 use leptos::logging;
 use leptos::prelude::*;
-use reactive_stores::{Store};
+use reactive_stores::Store;
 use serde::{Deserialize, Serialize};
-use dita_state::app_state::StateProvider;
-use dita_state::persist_state::{init_ctx, use_ctx, provide};
 
 const LOCALSTORAGE_KEY: &str = "sidenav";
 
@@ -13,11 +13,11 @@ struct SidenavContext {
 }
 
 #[derive(Clone, Copy)]
-pub struct SidenavMode {
+pub struct SidenavState {
     ctx: Store<SidenavContext>,
 }
 
-impl SidenavMode {
+impl SidenavState {
     pub fn new() -> Self {
         Self {
             ctx: use_ctx()
@@ -36,8 +36,8 @@ impl SidenavMode {
     }
 }
 
-impl StateProvider for SidenavMode {
+impl StateProvider for SidenavState {
     fn provide() {
-        provide::<SidenavContext>(LOCALSTORAGE_KEY);
+        init_ctx::<SidenavContext>(LOCALSTORAGE_KEY);
     }
 }

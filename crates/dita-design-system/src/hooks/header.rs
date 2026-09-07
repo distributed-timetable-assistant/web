@@ -1,5 +1,5 @@
 use dita_state::app_state::StateProvider;
-use dita_state::persist_state::{init_ctx, provide, use_ctx};
+use dita_state::persist_state::{init_ctx, use_ctx};
 use leptos::logging;
 use leptos::prelude::*;
 use reactive_stores::Store;
@@ -20,11 +20,11 @@ struct HeaderContext {
 }
 
 #[derive(Clone)]
-pub struct HeaderMode {
+pub struct HeaderState {
     ctx: Store<HeaderContext>,
 }
 
-impl HeaderMode {
+impl HeaderState {
     pub fn new() -> Self {
         Self {
             ctx: use_ctx()
@@ -52,8 +52,8 @@ impl HeaderMode {
     }
 }
 
-impl StateProvider for HeaderMode {
+impl StateProvider for HeaderState {
     fn provide() {
-        provide::<HeaderContext>(LOCALSTORAGE_KEY);
+        init_ctx::<HeaderContext>(LOCALSTORAGE_KEY);
     }
 }

@@ -8,7 +8,7 @@ use leptos_ui::tw_merge;
 
 struct App {
     title: &'static str,
-    component: Box<dyn Fn() -> AnyView + 'static + Send + Sync>,
+    component: fn() -> AnyView,
     href: &'static str,
     disabled: bool,
 }
@@ -26,25 +26,25 @@ pub fn Sidebar() -> impl IntoView {
     let apps = vec![
         App {
             title: "User Portal",
-            component: Box::new(|| view! { <UserRound /> }.into_any()),
+            component: || view! { <UserRound /> }.into_any(),
             href: "/user",
             disabled: false,
         },
         App {
             title: "Institution Portal",
-            component: Box::new(|| view! { <University /> }.into_any()),
+            component: || view! { <University /> }.into_any(),
             href: "/institution",
             disabled: false,
         },
         App {
             title: "Service Portal",
-            component: Box::new(|| view! { <Layers /> }.into_any()),
+            component: || view! { <Layers /> }.into_any(),
             href: "/service",
             disabled: true,
         },
         App {
             title: "Admin Portal",
-            component: Box::new(|| view! { <UserCog /> }.into_any()),
+            component: || view! { <UserCog /> }.into_any(),
             href: "/admin",
             disabled: true,
         },
@@ -151,7 +151,7 @@ leptos_ui::variants! {
         aria-[current=page]:text-sidenav-accent-foreground data-[state=open]:hover:bg-sidenav-accent
         data-[state=open]:hover:text-sidenav-accent-foreground [&>span:last-child]:truncate
         [&>svg]:size-4 [&>svg]:shrink-0 group-data-[collapsible=Icon]:size-8!
-        group-data-[collapsible=Icon]:p-0! [&>svg]:stroke-[1.5] aria-[current=page]:[&>svg]:stroke-[2.5]
+        group-data-[collapsible=Icon]:p-0! [&>svg]:stroke-[1.5] aria-[current=page]:[&>svg]:stroke-[1.9]
         aria-[current=page]:bg-primary
         "#,
         variants: {

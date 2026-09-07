@@ -4,16 +4,15 @@ use crate::components::core::breadcrumb::{
 };
 use crate::components::core::button::{Button, ButtonSize, ButtonVariant};
 use crate::components::core::separator::{Separator, SeparatorOrientation};
-use crate::hooks::header::HeaderMode;
-use crate::hooks::sidenav::SidenavMode;
-use crate::hooks::theme::ThemeMode;
+use crate::hooks::header::HeaderState;
+use crate::hooks::sidenav::SidenavState;
+use crate::hooks::theme::ThemeState;
 use icons::{PanelLeftClose, PanelLeftOpen, SvgIcon};
 use leptos::prelude::*;
 
 #[component]
 pub fn Header() -> impl IntoView {
-
-    let ctx = HeaderMode::new();
+    let ctx = HeaderState::new();
     let crumbs = ctx.get_crumbs();
     let title = ctx.get_page_title();
 
@@ -62,7 +61,7 @@ pub fn Header() -> impl IntoView {
 
 #[component]
 fn SidenavToggle() -> impl IntoView {
-    let ctx = SidenavMode::new();
+    let ctx = SidenavState::new();
 
     view! {
         <Button
@@ -83,7 +82,7 @@ fn SidenavToggle() -> impl IntoView {
 
 #[component]
 fn ThemeToggle() -> impl IntoView {
-    let ctx = ThemeMode::new();
+    let ctx = ThemeState::new();
 
     view! {
         <style>
