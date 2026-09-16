@@ -12,5 +12,7 @@ dita-design-system.workspace = true
 dita-auth.workspace = true
 leptos.workspace = true
 leptos_ui.workspace = true
+reactive_stores.workspace = true
+serde.workspace = true
 icons.workspace = true
 leptos_router.workspace = true

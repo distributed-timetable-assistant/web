@@ -1,4 +1,4 @@
-use dita_design_system::hooks::header::HeaderState;
+use dita_core::common::hooks::header::HeaderState;
 use leptos::prelude::*;
 
 #[component]

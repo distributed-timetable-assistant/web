@@ -4,11 +4,11 @@ use dita_design_system::components::core::breadcrumb::{
 };
 use dita_design_system::components::core::button::{Button, ButtonSize, ButtonVariant};
 use dita_design_system::components::core::separator::{Separator, SeparatorOrientation};
-use dita_design_system::hooks::header::HeaderState;
 use dita_design_system::hooks::sidenav::SidenavState;
 use dita_design_system::hooks::theme::ThemeState;
 use icons::{PanelLeftClose, PanelLeftOpen, SvgIcon};
 use leptos::prelude::*;
+use crate::common::hooks::header::HeaderState;
 
 #[component]
 pub fn Header() -> impl IntoView {

@@ -3,7 +3,7 @@ use crate::common::components::section_sidenav::{SectionData, create_section_sid
 use crate::common::components::sidebar::Sidebar;
 use crate::common::pages::not_found::NotFound;
 use dita_auth::{AccountState, AuthCallbackPage, AuthErrorPage, AuthState, RequireAuth};
-use dita_design_system::hooks::header::{Crumb, HeaderState};
+use crate::common::hooks::header::{Crumb, HeaderState};
 use dita_design_system::hooks::sidenav::SidenavState;
 use dita_design_system::hooks::theme::ThemeState;
 use dita_state::app_state::AppStateBuilder;
