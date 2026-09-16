@@ -8,5 +8,8 @@ pub mod state_mgmt;
 // Public re-exports for application code
 pub use api::{ApiError, DitaClient};
 pub use components::guard::RequireAuth;
+pub use hooks::account::{AccountState, UserInfo};
+// Public re-exports for application code
+pub use hooks::account::AccountIdentity;
 pub use hooks::auth::{AuthState, AuthStatus};
 pub use pages::{AuthCallbackPage, AuthErrorPage, AuthLoadingPage};

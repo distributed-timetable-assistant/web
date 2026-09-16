@@ -7,6 +7,10 @@ pub fn use_random_id() -> String {
     format!("_{PREFIX}_{}", generate_hash())
 }
 
+pub fn use_random_id_for(element: &str) -> String {
+    format!("{}_{PREFIX}_{}", element, generate_hash())
+}
+
 static COUNTER: AtomicUsize = AtomicUsize::new(1);
 
 fn generate_hash() -> u64 {

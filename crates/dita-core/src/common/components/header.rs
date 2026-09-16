@@ -1,12 +1,12 @@
-use crate::components::core::avatar::{Avatar, AvatarImage};
-use crate::components::core::breadcrumb::{
+use crate::common::components::account_menu::AccountMenu;
+use dita_design_system::components::core::breadcrumb::{
     Breadcrumb, BreadcrumbItem, BreadcrumbLink, BreadcrumbList, BreadcrumbPage, BreadcrumbSeparator,
 };
-use crate::components::core::button::{Button, ButtonSize, ButtonVariant};
-use crate::components::core::separator::{Separator, SeparatorOrientation};
-use crate::hooks::header::HeaderState;
-use crate::hooks::sidenav::SidenavState;
-use crate::hooks::theme::ThemeState;
+use dita_design_system::components::core::button::{Button, ButtonSize, ButtonVariant};
+use dita_design_system::components::core::separator::{Separator, SeparatorOrientation};
+use dita_design_system::hooks::header::HeaderState;
+use dita_design_system::hooks::sidenav::SidenavState;
+use dita_design_system::hooks::theme::ThemeState;
 use icons::{PanelLeftClose, PanelLeftOpen, SvgIcon};
 use leptos::prelude::*;
 
@@ -49,11 +49,7 @@ pub fn Header() -> impl IntoView {
 
             <div class="flex items-center gap-3">
                 <ThemeToggle />
-                <Button variant=ButtonVariant::Ghost size=ButtonSize::Icon class="rounded-full p-0">
-                    <Avatar>
-                        <AvatarImage attr:src="https://cdn.jsdelivr.net/gh/alohe/avatars/png/memo_34.png" attr:alt="@rustify" />
-                    </Avatar>
-                </Button>
+                <AccountMenu />
             </div>
         </header>
     }

@@ -3,6 +3,7 @@ on:
   push:
     branches:
       - master
+      - feat/issue-5/add-account-info-and-logout
 
 jobs:
   common:
