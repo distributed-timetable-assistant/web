@@ -25,11 +25,22 @@ pub fn oidc_parameters() -> AuthParameters {
             .unwrap_or(format!("http://localhost:8080{}/callback", app_path).as_str())
             .to_string(),
         post_logout_redirect_uri: option_env!("DITA_OIDC_POST_LOGOUT_URI")
-            .unwrap_or(format!("http://localhost:8080{}/", app_path).as_str())
+            .unwrap_or("http://localhost:8080/callback")
             .to_string(),
         // PKCE S256 is the required method for public clients (CSR/WASM)
         challenge: Challenge::S256,
         scope: Some("openid offline_access profile email".to_string()),
-        audience: None,
+        audience: Some("dita-web".to_string()),
     }
+}
+
+/// Base URL for Ory Kratos public API.
+///
+/// Can be customized at compile time via `DITA_KRATOS_URL`.
+/// Defaults to `https://identity.outi.ir`.
+pub fn account_url() -> String {
+    option_env!("DITA_KRATOS_URL")
+        .unwrap_or("https://account.st.dita.hasankarimi.ir")
+        .trim_end_matches('/')
+        .to_string()
 }

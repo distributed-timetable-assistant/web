@@ -9,10 +9,10 @@ use crate::section_sidenav::get_section_data;
 use dita_core::common::app::{AppBase, AppBaseProps};
 use dita_core::common::pages::wallet::WalletPage;
 use dita_core::routes;
-use dita_design_system::hooks::header::Crumb;
 use dita_state::app_state::AppState;
 use leptos::prelude::*;
 use leptos_router::components::Redirect;
+use dita_core::common::hooks::header::Crumb;
 
 const PUBLIC_URL: Option<&'static str> = option_env!("TRUNK_BUILD_PUBLIC_URL");
 

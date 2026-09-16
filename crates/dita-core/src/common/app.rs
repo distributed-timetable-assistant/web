@@ -1,9 +1,9 @@
+use crate::common::components::header::Header;
 use crate::common::components::section_sidenav::{SectionData, create_section_sidenav};
 use crate::common::components::sidebar::Sidebar;
 use crate::common::pages::not_found::NotFound;
-use dita_auth::{AuthCallbackPage, AuthErrorPage, AuthState, RequireAuth};
-use dita_design_system::components::header::layout::Header;
-use dita_design_system::hooks::header::{Crumb, HeaderState};
+use dita_auth::{AccountState, AuthCallbackPage, AuthErrorPage, AuthState, RequireAuth};
+use crate::common::hooks::header::{Crumb, HeaderState};
 use dita_design_system::hooks::sidenav::SidenavState;
 use dita_design_system::hooks::theme::ThemeState;
 use dita_state::app_state::AppStateBuilder;
@@ -67,6 +67,7 @@ fn build_state(state_builder: AppStateBuilder) {
         .with::<SidenavState>()
         .with::<HeaderState>()
         .with::<AuthState>()
+        .with::<AccountState>()
         .build();
 }
 

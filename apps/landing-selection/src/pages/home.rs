@@ -1,6 +1,6 @@
 use dita_design_system::components::core::button::{Button, ButtonVariant};
 use dita_design_system::components::core::card::components::{CardGroup, IconWrapper};
-use dita_design_system::hooks::header::HeaderState;
+use dita_core::common::hooks::header::HeaderState;
 use icons::common::IconType;
 use icons::icon_component::LeptosIcon;
 use leptos::prelude::*;

@@ -1,5 +1,5 @@
-use dita_design_system::hooks::header::HeaderState;
 use leptos::prelude::*;
+use crate::common::hooks::header::HeaderState;
 
 #[component]
 pub fn NotFound() -> impl IntoView {
