@@ -69,7 +69,7 @@ jobs:
           TRUNK_BUILD_DIST: dist${{ matrix.app.path }}
           TRUNK_BUILD_PUBLIC_URL: ${{ matrix.app.path }}
           DITA_OIDC_REDIRECT_URI: "https://web.st.dita.hasankarimi.ir${{ matrix.app.path }}/callback"
-          DITA_OIDC_POST_LOGOUT_URI: "https://web.st.dita.hasankarimi.ir${{ matrix.app.path }}/"
+          DITA_OIDC_POST_LOGOUT_URI: "https://web.st.dita.hasankarimi.ir/callback"
         run: trunk build --release
       - name: Add Callback Page
         working-directory: dist
