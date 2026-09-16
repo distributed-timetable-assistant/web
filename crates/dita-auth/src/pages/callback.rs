@@ -1,4 +1,3 @@
-use leptos::logging;
 use leptos::prelude::*;
 use leptos_router::NavigateOptions;
 use leptos_router::hooks::use_navigate;
@@ -22,7 +21,6 @@ pub fn AuthCallbackPage(
 
     Effect::new(move |_| {
         let current_status = status.get();
-        logging::log!("Callback: current_status=({:?})", current_status);
         match current_status {
             AuthStatus::Authenticated => to_continue(&destination, &navigate),
             AuthStatus::Error(_) => error(&navigate),

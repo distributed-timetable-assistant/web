@@ -10,7 +10,7 @@ pub fn get_section_data() -> SectionData {
         app_icon: || view! {<LandPlot/>}.into_any(),
         section_groups: vec![
             SectionGroup {
-                title: "User".to_string(),
+                title: "Portals".to_string(),
                 sections: vec![Section {
                     title: "Apps".to_string(),
                     path: "apps".to_string(),

@@ -141,6 +141,8 @@ pub struct AccountIdentity {
 
 #[derive(Clone, Debug, Serialize, Deserialize)]
 pub enum AccountIdentityState {
-    active,
-    inactive,
+    #[serde(rename = "active")]
+    Active,
+    #[serde(rename = "inactive")]
+    Inactive,
 }
