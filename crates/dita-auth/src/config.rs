@@ -40,7 +40,7 @@ pub fn oidc_parameters() -> AuthParameters {
 /// Defaults to `https://identity.outi.ir`.
 pub fn account_url() -> String {
     option_env!("DITA_KRATOS_URL")
-        .unwrap_or("https://account.st.dita.hasankarimi.ir")
+        .unwrap_or("https://dita-account.hasankarimi.ir")
         .trim_end_matches('/')
         .to_string()
 }
