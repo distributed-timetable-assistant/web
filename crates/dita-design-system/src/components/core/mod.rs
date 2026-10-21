@@ -5,3 +5,4 @@ pub mod card;
 pub mod separator;
 pub mod dropdown_menu;
 pub mod chips;
+pub mod collapsible;

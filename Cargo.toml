@@ -34,6 +34,12 @@ gloo-net = "0.7"
 thiserror = "^2.0"
 oauth2 = "^5.0"
 url = "^2.5"
+chrono = "0.4"
+serde_yaml = "0.9"
+rstest = "0.27"
+models = { git = "https://github.com/distributed-timetable-assistant/models", branch = "master", features = ["store"] }
+uuid = { version = "1.26.1", features = ["v4", "js"] }
+glam = "0.34"
 
 # TODO issue #4
 [patch.crates-io]

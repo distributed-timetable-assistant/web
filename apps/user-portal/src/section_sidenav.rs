@@ -15,7 +15,7 @@ pub fn get_section_data() -> SectionData {
                 sections: vec![
                     Section {
                         title: "Calendar".to_string(),
-                        path: "calendar".to_string(),
+                        path: "cal".to_string(),
                         icon: || view! {<CalendarCheck/>}.into_any(),
                     },
                     Section {

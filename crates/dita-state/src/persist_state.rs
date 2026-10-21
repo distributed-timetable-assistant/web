@@ -12,7 +12,8 @@ where
     use_context::<Store<T>>()
 }
 
-pub fn init_ctx<T>(key: &str) -> Store<T>
+/// init
+pub fn get_stored_ctx<T>(key: &str) -> Store<T>
 where
     T: PartialEq + Clone + Default + Send + Sync + DeserializeOwned + Serialize + 'static,
 {
@@ -26,5 +27,14 @@ where
         set_state.set(init.get());
     });
 
+    init
+}
+
+pub fn get_ctx<T>() -> Store<T>
+where
+    T: Default + Send + Sync + 'static,
+{
+    let init = Store::new(T::default());
+    provide_context(init);
     init
 }

@@ -13,6 +13,17 @@ dita-auth.workspace = true
 leptos.workspace = true
 leptos_ui.workspace = true
 reactive_stores.workspace = true
+leptos-use.workspace = true
 serde.workspace = true
+serde_yaml.workspace = true
 icons.workspace = true
 leptos_router.workspace = true
+chrono.workspace = true
+models.workspace = true
+uuid.workspace = true
+glam.workspace = true
+
+[dev-dependencies]
+serde_yaml.workspace = true
+serde_json.workspace = true
+rstest.workspace = true

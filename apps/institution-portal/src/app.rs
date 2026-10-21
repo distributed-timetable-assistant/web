@@ -1,5 +1,4 @@
 use crate::pages::actors::ActorsPage;
-use crate::pages::calendar::CalendarPage;
 use crate::pages::courses::CoursesPage;
 use crate::pages::facilities::FacilitiesPage;
 use crate::pages::groups::GroupsPage;
@@ -17,6 +16,7 @@ use dita_core::common::hooks::header::Crumb;
 use dita_state::app_state::AppState;
 use leptos::prelude::*;
 use leptos_router::components::Redirect;
+use dita_core::feats::cal::page::CalPage;
 
 const PUBLIC_URL: Option<&'static str> = option_env!("TRUNK_BUILD_PUBLIC_URL");
 
@@ -39,7 +39,7 @@ pub fn App() -> impl IntoView {
             .base_crumbs(crumbs)
             .section_data(get_section_data())
             .routes(routes![
-                "/calendar" => CalendarPage,
+                "/cal" => CalPage,
                 "/units" => UnitsPage,
                 "/facilities" => FacilitiesPage,
                 "/groups" => GroupsPage,
@@ -51,7 +51,7 @@ pub fn App() -> impl IntoView {
                 "/packets" => PacketsPage,
                 "/timetable" => TimetablePage,
                 "/wallet" => WalletPage,
-                "/" => || view! { <Redirect path="/calendar"/> },
+                "/" => || view! { <Redirect path="/cal"/> },
             ])
             .build(),
     )

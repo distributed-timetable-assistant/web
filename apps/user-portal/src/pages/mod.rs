@@ -1,4 +1,3 @@
-pub mod calendar;
 pub mod capabilities;
 pub mod courses;
 pub mod qualifications;

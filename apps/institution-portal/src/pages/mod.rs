@@ -1,5 +1,4 @@
 pub mod actors;
-pub mod calendar;
 pub mod courses;
 pub mod facilities;
 pub mod groups;

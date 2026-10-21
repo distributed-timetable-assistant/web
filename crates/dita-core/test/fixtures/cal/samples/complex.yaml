@@ -1,0 +1,93 @@
+# Queensland High School Weekly Calendar
+avails:
+  - type: Weekly # Yearly, Monthly, Weekly, Daily, Basic, Holiday,
+    id: 301ac1b7-82b5-4274-af73-a3c320c8933f
+    start: 2026-01-28T00:00:00+10:00
+    end: 2026-12-12T23:59:59+10:00
+    time_cells:
+      - type: Daily # Daily, Basic,
+        id: 1f5fdb26-b785-4e73-9bd4-0d0c274fc37b
+        start:
+          day: Mon # Mon = 0, Tue = 1, Wed = 2, Thu = 3, Fri = 4, Sat = 5, Sun = 6,
+          time: 00:00:00
+        end:
+          day: Fri
+          time: 23:59:59
+        time_cells:
+          # Period 1: 08:30 - 09:20
+          - type: Basic # Basic,
+            id: a3354686-761a-4fb1-9314-40cef8220d10
+            start: 08:30:00
+            end: 09:20:00
+            rules: []
+            status: Available # Available, Unavailable, Preferred, Undesired,
+            div_cap: 1
+          # Period 2: 09:20 - 10:10
+          - type: Basic
+            id: cc4c0728-c5d5-4c64-95bb-7e8b7ec574bd
+            start: 09:20:00
+            end: 10:10:00
+            rules: []
+            status: Available
+            div_cap: 1
+          # Break 1 (Morning Tea): 10:10 - 10:40 (Excluded)
+          # Period 3: 10:40 - 11:30
+          - type: Basic
+            id: 96537f62-56cf-4f29-a272-e446f89d028e
+            start: 10:40:00
+            end: 11:30:00
+            rules: []
+            status: Available
+            div_cap: 1
+          # Consolidation: 12:20 - 13:00
+          - type: Basic
+            id: 14e88b7d-6cd8-4848-ac65-89a241ab6378
+            start: 12:20:00
+            end: 13:00:00
+            rules: []
+            status: Available
+            div_cap: 1
+          # Break 2 (Lunch): 13:00 - 13:30 (Excluded)
+          # Period 5: 13:30 - 14:20
+          - type: Basic
+            id: 813d8fa0-a0fe-41a6-9c1b-f1b0fc181db7
+            start: 13:30:00
+            end: 14:20:00
+            rules: []
+            status: Available
+            div_cap: 1
+          # Period 6: 14:20 - 15:10
+          - type: Basic
+            id: c5a91370-1f9f-443d-a6db-68235443add0
+            start: 14:20:00
+            end: 15:10:00
+            rules: []
+            status: Available
+            div_cap: 1
+      - type: Basic
+        id: 1ce9f89d-3c45-4105-addf-7225a5e01bd0
+        start:
+          day: Fri
+          time: 09:20:00
+        end:
+          day: Fri
+          time: 10:10:00
+        rules: []
+        status: Undesired
+        div_cap: 0
+  - type: Holiday
+    id: e2b689fa-7309-47cc-9873-2943f705c665
+    start: 2026-01-28T00:00:00+10:00
+    end: 2026-12-12T23:59:59+10:00
+    country: "au-qld"
+    status: Unavailable
+  - type: Basic
+    id: 3f2f0423-1251-4b27-98c2-962c7966a18f
+    start: 2026-01-01T00:00:00Z
+    end: 2026-12-30T23:59:59Z
+    rules: []
+    status: Available
+    # Capacity divide: 0 allows scheduling at any time within the interval;
+    # 1 allows only one course to occupy the interval;
+    # values greater than 1 allow the interval to be divided among multiple courses.
+    div_cap: 1

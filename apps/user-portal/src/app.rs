@@ -1,4 +1,3 @@
-use crate::pages::calendar::CalendarPage;
 use crate::pages::capabilities::CapabilitiesPage;
 use crate::pages::courses::CoursesPage;
 use crate::pages::qualifications::QualificationsPage;
@@ -7,12 +6,13 @@ use crate::pages::subjects::SubjectsPage;
 use crate::pages::timetable::TimetablePage;
 use crate::section_sidenav::get_section_data;
 use dita_core::common::app::{AppBase, AppBaseProps};
+use dita_core::common::hooks::header::Crumb;
 use dita_core::common::pages::wallet::WalletPage;
+use dita_core::feats::cal::page::CalPage;
 use dita_core::routes;
 use dita_state::app_state::AppState;
 use leptos::prelude::*;
 use leptos_router::components::Redirect;
-use dita_core::common::hooks::header::Crumb;
 
 const PUBLIC_URL: Option<&'static str> = option_env!("TRUNK_BUILD_PUBLIC_URL");
 
@@ -35,7 +35,7 @@ pub fn App() -> impl IntoView {
             .base_crumbs(crumbs)
             .section_data(get_section_data())
             .routes(routes![
-                "/calendar" => CalendarPage,
+                "/cal" => CalPage,
                 "/capabilities" => CapabilitiesPage,
                 "/subjects" => SubjectsPage,
                 "/resources" => ResourcesPage,
@@ -43,7 +43,7 @@ pub fn App() -> impl IntoView {
                 "/qualifications" => QualificationsPage,
                 "/timetable" => TimetablePage,
                 "/wallet" => WalletPage,
-                "/" => || view! { <Redirect path="/calendar"/> },
+                "/" => || view! { <Redirect path="/cal"/> },
             ])
             .build(),
     )
