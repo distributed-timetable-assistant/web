@@ -1,0 +1,43 @@
+use dita_state::app_state::StateProvider;
+use dita_state::persist_state::{get_stored_ctx, use_ctx};
+use leptos::logging;
+use leptos::prelude::*;
+use reactive_stores::Store;
+use serde::{Deserialize, Serialize};
+
+const LOCALSTORAGE_KEY: &str = "sidenav";
+
+#[derive(Debug, Clone, Copy, Default, Store, Serialize, Deserialize, PartialEq)]
+struct SidenavContext {
+    pub open: bool,
+}
+
+#[derive(Clone, Copy)]
+pub struct SidenavState {
+    ctx: Store<SidenavContext>,
+}
+
+impl SidenavState {
+    pub fn new() -> Self {
+        Self {
+            ctx: use_ctx()
+                .unwrap_or_else(|| {
+                    logging::warn!("Use Context: FAILED. SidenavContext not initialized at root component, build app state with sidenav state");
+                    get_stored_ctx(LOCALSTORAGE_KEY)
+                }),
+        }
+    }
+    pub fn toggle(self) {
+        self.ctx.open().update(|v| *v = !*v);
+    }
+
+    pub fn is_open(&self) -> Signal<bool> {
+        self.ctx.open().into()
+    }
+}
+
+impl StateProvider for SidenavState {
+    fn provide() {
+        get_stored_ctx::<SidenavContext>(LOCALSTORAGE_KEY);
+    }
+}
