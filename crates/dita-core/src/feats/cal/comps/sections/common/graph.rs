@@ -1,5 +1,7 @@
-use leptos::html::Div;
+use leptos::html::{Div, div};
 use leptos::prelude::*;
+use leptos_ui::tw_merge::tw_merge;
+use leptos_use::use_resize_observer;
 use models::cal::time_cells::common::Cell;
 use reactive_stores::StoreField;
 
@@ -50,31 +52,16 @@ where
     /// A view representing the calendar graph.
     fn draw(&self, class: String) -> impl IntoView {
         let parent_ref = NodeRef::<Div>::new();
-        let (parent_width, set_parent_width) = signal(1000);
-        use_resize_observer(parent_ref, move |entries, _| {
-            let rect = entries[0].content_rect();
-            set_parent_width.set(rect.width() as u32);
-        });
+        let size = make_react(parent_ref);
 
-        let table_height: u32 = 40;
-        let table_x_margin: u32 = 30;
-        let table_width = Memo::new(move |_| parent_width.get() - 2 * table_x_margin);
-        let (table, points) =
-            get_table(time_cell, table_width.into(), table_height, table_x_margin);
+        let (bg, table_geo) = self.draw_bg(&size);
+        let (table, labels) = self.draw_table(&table_geo);
+        let overlay = self.draw_overlay(&size, &table_geo, labels);
 
-        div().node_ref(parent_ref).class("grid").child((
-            get_bg(parent_width.into(), height),
-            table,
-            get_overlay(
-                parent_width.into(),
-                height,
-                table_x_margin,
-                0,
-                table_width.into(),
-                table_height,
-                points,
-            ),
-        ))
+        div()
+            .node_ref(parent_ref)
+            .class(tw_merge!("grid", class))
+            .child((bg, table, overlay))
     }
 
     /// Renders the graph background and calculates the table geometry.
@@ -91,7 +78,7 @@ where
     /// A tuple containing:
     /// - The background view.
     /// - The geometry required to position and size the calendar table.
-    fn draw_bg(&self, size: Size) -> (impl IntoView, TableGeo);
+    fn draw_bg(&self, size: &Size) -> (impl IntoView, TableGeo);
 
     /// Renders the calendar table using the supplied geometry.
     ///
@@ -126,7 +113,7 @@ where
     /// A view containing the overlay elements.
     fn draw_overlay(
         &self,
-        size: Size,
+        size: &Size,
         table_geo: &TableGeo,
         point_labels: Signal<Vec<PointLabel<T>>>,
     ) -> impl IntoView;
@@ -209,4 +196,23 @@ where
 
     /// The time value associated with this position.
     pub time: T,
+}
+
+fn make_react(parent_ref: NodeRef<Div>) -> Size {
+    let (width, set_width) = signal(1);
+    use_resize_observer(parent_ref, move |entries, _| {
+        let rect = entries[0].content_rect();
+        set_width.set(rect.width() as u32);
+    });
+
+    let (height, set_height) = signal(1);
+    use_resize_observer(parent_ref, move |entries, _| {
+        let rect = entries[0].content_rect();
+        set_height.set(rect.height() as u32);
+    });
+
+    Size {
+        width: width.into(),
+        height: height.into(),
+    }
 }
