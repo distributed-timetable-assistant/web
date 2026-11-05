@@ -1,6 +1,6 @@
 use crate::feats::cal::comps::sections::bg::basic::{BasicBg, BasicBgProps};
 use crate::feats::cal::comps::sections::common;
-use crate::feats::cal::comps::sections::common::graph::{CalGraph, CalGraphDraw, PointLabel, Size, TableGeo};
+use crate::feats::cal::comps::sections::common::graph::{CalGraph, CalGraphDraw, Offset, PointLabel, Size, TableGeo};
 use crate::feats::cal::comps::sections::overlays::basic::{
     GeneralBasicOverlay, GeneralBasicOverlayProps,
 };
@@ -33,7 +33,7 @@ where
                     CollapsibleContent(
                         CollapsibleContentProps::builder()
                             .children(ToChildren::to_children(move || {
-                                general_basic_table(time_cell)
+                                general_basic_graph(time_cell)
                             }))
                             .build(),
                     ),
@@ -50,7 +50,7 @@ pub struct BasicPointLabel {
     pub g_time: String,
 }
 
-fn general_basic_table<C>(time_cell: C) -> AnyView
+fn general_basic_graph<C>(time_cell: C) -> impl IntoView
 where
     C: StoreField<Value = BasicTimeCell<GeneralTime>> + Get + Track + Copy + Send + Sync + 'static,
 {
@@ -83,7 +83,6 @@ where
                 points,
             ),
         ))
-        .into_any()
 }
 
 fn get_bg(width: Signal<u32>, height: u32) -> impl IntoView {
@@ -162,7 +161,7 @@ where
     T: Send + Sync + 'static
 {
     fn draw_bg(&self, size: Size) -> (impl IntoView, TableGeo) {
-        let (width, height) = size;
+        let Size {width, height} = size;
         let bg = BasicBg(
             BasicBgProps::builder()
                 .class("col-start-1 row-start-1")
@@ -174,13 +173,13 @@ where
         let table_x_margin: u32 = 30;
         let table_width = Signal::derive(move || width() - 2 * table_x_margin);
         let table_height = Signal::derive(move || height() - 30);
-        let table_geo = (table_width, table_height);
+        let table_size = Size {width: table_width, height: table_height};
 
         (
             bg,
             TableGeo {
-                offset: (table_x_margin, 0),
-                size: table_geo,
+                offset: Offset {x: table_x_margin, y: 0},
+                size: table_size,
             },
         )
     }
