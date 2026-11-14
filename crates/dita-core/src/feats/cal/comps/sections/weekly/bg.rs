@@ -1,10 +1,10 @@
-use crate::feats::cal::comps::sections::bg::common;
+use crate::feats::cal::comps::sections::common::{right_arrow, up_arrow};
 use leptos::prelude::*;
 use leptos::svg::{defs, g, line, svg};
-use leptos_ui::tw_merge::tw_merge;
+use leptos_ui::clx::tw_merge;
 
 #[component]
-pub fn BasicBg(
+pub fn WeeklyBg(
     #[prop(optional, into)] class: String,
     width: Signal<u32>,
     height: Signal<u32>,
@@ -17,7 +17,13 @@ pub fn BasicBg(
         .class(tw_merge!("stroke-border text-border", class))
         .child(
             g().class("pointer-events-none").child((
-                defs().child(common::right_arrow()),
+                defs().child((right_arrow(), up_arrow())),
+                line()
+                    .attr("x1", 100)
+                    .attr("y1", line_y)
+                    .attr("x2", 100)
+                    .attr("y2", 15)
+                    .attr("marker-end", "url(#up_arrow)"),
                 line()
                     .attr("x1", 0)
                     .attr("y1", line_y)

@@ -5,239 +5,81 @@ use leptos_use::use_resize_observer;
 use models::cal::time_cells::common::Cell;
 use reactive_stores::StoreField;
 
-/// Defines the rendering interface for a calendar graph.
-///
-/// A calendar graph is composed of three visual layers:
-///
-/// 1. **Background**: Renders the graph background and provides the geometry
-///    of the calendar table.
-/// 2. **Table**: Renders the calendar cells and provides their associated
-///    spatial and temporal labels.
-/// 3. **Overlay**: Renders additional visual elements on top of the background
-///    and table using the geometry and labels provided by the previous layers.
-///
-/// The graph automatically observes its container dimensions and updates its
-/// layout reactively when the container is resized.
-///
-/// # Type Parameters
-///
-/// - `S`: The reactive store field type associated with the calendar cells.
-///   Must implement [`StoreField`] with [`StoreField::Value`] equal to `C`,
-///   and be [`Copy`].
-/// - `C`: The calendar time cell type. Must implement [`Cell`].
-/// - `T`: The time representation associated with the calendar cells.
-///   Must implement [`Send`], [`Sync`], and have a `'static` lifetime.
-///
-/// # Rendering Pipeline
-///
-/// The default [`draw`](Self::draw) implementation performs the following steps:
-///
-/// 1. Creates a node reference for the graph container.
-/// 2. Observes the container dimensions through [`make_react`].
-/// 3. Renders the background and obtains the table geometry.
-/// 4. Renders the calendar table and obtains its point labels.
-/// 5. Renders the overlay using the graph dimensions, table geometry,
-///    and point labels.
-///
-/// # Coordinate System
-///
-/// Implementations must maintain a consistent coordinate system between
-/// the table geometry and overlay elements. The interpretation of relative
-/// positions must be consistent across rendering layers.
-pub trait CalGraphDraw<S, C, T>
+pub trait StoreCell: StoreField<Value = Self::Cell> + Clone + Track + Send + 'static {
+    type Cell;
+}
+pub trait Time: Send + Sync + 'static {}
+
+#[derive(Clone)]
+pub struct CalGraph<S, C>
 where
-    S: StoreField<Value = C> + Copy,
+    S: StoreField<Value = C>,
     C: Cell,
-    T: Send + Sync + 'static,
 {
-    /// Renders the complete calendar graph.
-    ///
-    /// The default implementation creates a reactive graph container and
-    /// composes the background, table, and overlay into a single view.
-    ///
-    /// The container's dimensions are observed automatically, allowing
-    /// implementations to react to size changes.
-    ///
-    /// # Arguments
-    ///
-    /// - `class`: Additional CSS classes applied to the graph container.
-    ///   These are merged with the default `grid` class using Tailwind
-    ///   class merging.
-    ///
-    /// # Returns
-    ///
-    /// A view containing the complete calendar graph.
-    fn draw(&self, class: String) -> impl IntoView {
+    pub time_cell: S,
+}
+
+pub trait CalGraphDraw<S, C, T>: Clone
+where
+    S: StoreCell<Cell = C>,
+    C: Cell,
+    T: Time,
+{
+    fn draw(self, class: impl Into<String>) -> impl IntoView {
         let parent_ref = NodeRef::<Div>::new();
         let size = make_react(parent_ref);
 
-        let (bg, table_geo) = self.draw_bg(&size);
-        let (table, labels) = self.draw_table(&table_geo);
-        let overlay = self.draw_overlay(&size, &table_geo, labels);
+        let (bg, table_geo) = self.clone().draw_bg(size);
+        let table = self.clone().draw_table(table_geo);
+        let overlay = self.draw_overlay(size, table_geo);
 
+        let class = class.into();
         div()
             .node_ref(parent_ref)
             .class(tw_merge!("grid", class))
             .child((bg, table, overlay))
     }
 
-    /// Renders the background layer and calculates the calendar table geometry.
-    ///
-    /// The returned geometry defines the table's position and dimensions
-    /// relative to the graph container. It is subsequently used by the
-    /// table and overlay rendering layers.
-    ///
-    /// # Arguments
-    ///
-    /// - `size`: The reactive dimensions of the graph container.
-    ///
-    /// # Returns
-    ///
-    /// A tuple containing:
-    /// - The rendered background view.
-    /// - The geometry describing the calendar table's position and dimensions.
-    fn draw_bg(&self, size: &Size) -> (impl IntoView, TableGeo);
+    fn draw_bg(self, size: Size) -> (impl IntoView, TableGeo);
 
-    /// Renders the calendar table using the geometry provided by the background.
-    ///
-    /// In addition to rendering the table, this method provides reactive
-    /// spatial and temporal labels that can be consumed by the overlay layer.
-    ///
-    /// # Arguments
-    ///
-    /// - `table_geo`: The position and dimensions of the calendar table.
-    ///
-    /// # Returns
-    ///
-    /// A tuple containing:
-    /// - The rendered calendar table view.
-    /// - A reactive signal containing the table's point labels.
-    fn draw_table(
-        &self,
-        table_geo: &TableGeo,
-    ) -> (impl IntoView, Signal<Vec<PointLabel<T>>>);
+    fn draw_table(self, table_geo: TableGeo) -> impl IntoView;
 
-    /// Renders the overlay layer on top of the calendar graph.
-    ///
-    /// The overlay can use the graph dimensions, table geometry, and
-    /// time-associated point labels to position additional visual elements.
-    ///
-    /// # Arguments
-    ///
-    /// - `size`: The reactive dimensions of the graph container.
-    /// - `table_geo`: The position and dimensions of the calendar table.
-    /// - `point_labels`: A reactive collection of spatial and temporal
-    ///   labels generated by the table layer.
-    ///
-    /// # Returns
-    ///
-    /// A view containing the overlay elements.
-    fn draw_overlay(
-        &self,
-        size: &Size,
-        table_geo: &TableGeo,
-        point_labels: Signal<Vec<PointLabel<T>>>,
-    ) -> impl IntoView;
+    fn draw_overlay(self, size: Size, table_geo: TableGeo) -> impl IntoView;
 }
 
-/// Represents the reactive dimensions of a graph container.
-///
-/// Both dimensions are expressed in pixels and are updated when the
-/// container is resized.
-///
-/// The dimensions are exposed as signals so that dependent rendering
-/// operations can react to changes without recreating the `Size` instance.
+#[derive(Debug, Clone, Copy)]
 pub struct Size {
-    /// The current container width in pixels.
     pub width: Signal<u32>,
-
-    /// The current container height in pixels.
     pub height: Signal<u32>,
 }
 
-/// Represents a two-dimensional offset in pixels.
-///
-/// The origin `(0, 0)` corresponds to the top-left corner of the
-/// reference coordinate system.
+#[derive(Debug, Clone, Copy)]
 pub struct Offset {
-    /// The horizontal offset in pixels.
     pub x: u32,
-
-    /// The vertical offset in pixels.
     pub y: u32,
 }
 
-/// Describes the position and dimensions of the calendar table
-/// relative to its containing graph.
-///
-/// The offset identifies the table's top-left corner, while the size
-/// defines its width and height.
+#[derive(Debug, Clone, Copy)]
 pub struct TableGeo {
-    /// The table's top-left offset relative to the graph container.
     pub offset: Offset,
-
-    /// The table's dimensions.
     pub size: Size,
 }
 
-/// Represents a normalized two-dimensional position relative to a reference area.
-///
-/// Both coordinates are expected to be within the inclusive range `[0.0, 1.0]`.
-///
-/// The coordinate system uses the top-left corner as its origin:
-///
-/// - `(0.0, 0.0)` represents the top-left corner.
-/// - `(1.0, 0.0)` represents the top-right corner.
-/// - `(0.0, 1.0)` represents the bottom-left corner.
-/// - `(1.0, 1.0)` represents the bottom-right corner.
-///
-/// Both coordinates are reactive signals, allowing the position to change
-/// dynamically and propagate updates to dependent rendering operations.
-#[derive(Debug, Clone, Copy, PartialEq)]
+#[derive(Debug, Clone, Copy)]
 pub struct RelativeLocation {
-    /// The normalized horizontal coordinate.
-    pub x: Signal<f32>,
-
-    /// The normalized vertical coordinate.
-    pub y: Signal<f32>,
+    pub x: f32,
+    pub y: f32,
 }
 
-/// Associates a normalized position within a calendar graph with a time value.
-///
-/// Point labels provide the spatial and temporal information required
-/// by overlay elements to locate and interpret positions within the calendar.
-///
-/// # Type Parameters
-///
-/// - `T`: The time representation associated with this point.
-///   Must implement [`Send`], [`Sync`], and have a `'static` lifetime.
+#[derive(Debug, Clone, Copy)]
 pub struct PointLabel<T>
 where
     T: Send + Sync + 'static,
 {
-    /// The normalized position of this point relative to its reference area.
     pub loc: RelativeLocation,
-
-    /// The time value associated with this position.
     pub time: T,
 }
 
-/// Creates reactive dimensions for a graph container by observing its size.
-///
-/// A single resize observer tracks both the container's width and height.
-/// Whenever the container is resized, both corresponding signals are updated,
-/// allowing dependent graph layers to react to dimension changes.
-///
-/// The dimensions are initially set to `1` to avoid starting with zero-sized
-/// values before the first resize observation.
-///
-/// # Arguments
-///
-/// - `parent_ref`: A node reference to the graph's container element.
-///
-/// # Returns
-///
-/// A [`Size`] containing reactive width and height signals.
 fn make_react(parent_ref: NodeRef<Div>) -> Size {
     let (width, set_width) = signal(1);
     let (height, set_height) = signal(1);
