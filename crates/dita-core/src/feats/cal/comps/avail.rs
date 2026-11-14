@@ -1,4 +1,4 @@
-use crate::feats::cal::comps::sections::common::graph::{CalGraphDraw, StoreCell, Time};
+use crate::feats::cal::comps::sections::common::graph::{CalGraph, CalGraphDraw, StoreCell, Time};
 use crate::feats::cal::comps::sections::common::header;
 use dita_design_system::components::core::collapsible::{
     Collapsible, CollapsibleContent, CollapsibleContentProps, CollapsibleProps,
@@ -6,8 +6,9 @@ use dita_design_system::components::core::collapsible::{
 use leptos::html::div;
 use leptos::prelude::*;
 use leptos_ui::tw_merge::tw_merge;
+use models::cal::GeneralTimeCell::{Basic, Weekly};
 use models::cal::time_cells::common::Cell;
-use models::cal::{Cal, GeneralTimeCell};
+use models::cal::{Cal, GeneralTimeCell, GeneralTimeCellStoreFields};
 use reactive_stores::{AtKeyed, Store};
 use uuid::Uuid;
 
@@ -19,19 +20,19 @@ pub fn Avail(avail: AtKeyed<Store<Cal>, Cal, Uuid, Vec<GeneralTimeCell>>) -> imp
         .child(move || match avail.get() {
             // GeneralTimeCell::Yearly(_) => {}
             // GeneralTimeCell::Monthly(_) => {}
-            // Weekly(_) => {
-            //     let graph = CalGraph {
-            //         time_cell: avail.weekly_0().unwrap(),
-            //     };
-            //     get_collapse("Weekly".into(), graph)
-            // }
+            Weekly(_) => {
+                let graph = CalGraph {
+                    time_cell: avail.weekly_0().unwrap(),
+                };
+                get_collapse("Weekly".into(), graph)
+            }
             // GeneralTimeCell::Daily(_) => {}
-            // Basic(_) => {
-            //     let graph = CalGraph {
-            //         time_cell: avail.basic_0().unwrap(),
-            //     };
-            //     get_collapse("Basic".into(), graph)
-            // }
+            Basic(_) => {
+                let graph = CalGraph {
+                    time_cell: avail.basic_0().unwrap(),
+                };
+                get_collapse("Basic".into(), graph)
+            }
             // GeneralTimeCell::Holiday(_) => {}
             _ => Collapsible(
                 CollapsibleProps::builder()

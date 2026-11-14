@@ -81,8 +81,8 @@ where
 }
 
 fn make_react(parent_ref: NodeRef<Div>) -> Size {
-    let (width, set_width) = signal(1);
-    let (height, set_height) = signal(1);
+    let (width, set_width) = signal(1000);
+    let (height, set_height) = signal(1000);
 
     use_resize_observer(parent_ref, move |entries, _| {
         if let Some(entry) = entries.first() {
