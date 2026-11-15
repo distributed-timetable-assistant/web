@@ -1,13 +1,11 @@
 use crate::feats::cal::comps::sections::basic::bg::{BasicBg, BasicBgProps};
+use crate::feats::cal::comps::sections::basic::overlay::{BasicOverlay, BasicOverlayProps};
 use crate::feats::cal::comps::sections::basic::table::{BasicTable, BasicTableProps};
-use crate::feats::cal::comps::sections::common::graph::{
-    CalGraph, CalGraphDraw, Offset, Size, StoreCell, TableGeo,
-};
+use crate::feats::cal::comps::sections::common::graph::{CalGraph, CalGraphDraw, Offset, PointLabel, Size, StoreCell, TableGeo};
 use leptos::IntoView;
 use leptos::prelude::Signal;
 use models::cal::time_cells::basic::BasicTimeCell;
 use models::cal::time_cells::weekly::WeekTime;
-use crate::feats::cal::comps::sections::basic::overlay::{GeneralBasicOverlay, GeneralBasicOverlayProps};
 
 impl<S> CalGraphDraw<S, BasicTimeCell<WeekTime>, WeekTime> for CalGraph<S, BasicTimeCell<WeekTime>>
 where
@@ -66,8 +64,9 @@ where
             x: table_x,
             y: table_y,
         } = table_geo.offset;
-        GeneralBasicOverlay(
-            GeneralBasicOverlayProps::builder()
+        let points: Vec<PointLabel<WeekTime>> = vec![];
+        BasicOverlay(
+            BasicOverlayProps::builder()
                 .class("col-start-1 row-start-1")
                 .width(width)
                 .height(height)
@@ -75,6 +74,7 @@ where
                 .table_y_offset(table_y)
                 .table_width(table_width)
                 .table_height(table_height)
+                .points(points)
                 .build(),
         )
     }

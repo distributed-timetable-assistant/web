@@ -1,16 +1,14 @@
 use crate::feats::cal::comps::sections::basic::bg::{BasicBg, BasicBgProps};
-use crate::feats::cal::comps::sections::basic::overlay::{
-    GeneralBasicOverlay, GeneralBasicOverlayProps,
-};
+use crate::feats::cal::comps::sections::basic::overlay::{BasicOverlay, BasicOverlayProps};
 use crate::feats::cal::comps::sections::basic::table::{BasicTable, BasicTableProps};
-use crate::feats::cal::comps::sections::common::graph::CalGraph;
+use crate::feats::cal::comps::sections::common::graph::{CalGraph, PointLabel, RelativeLocation};
 use crate::feats::cal::comps::sections::common::graph::{
     CalGraphDraw, Offset, Size, StoreCell, TableGeo,
 };
 use leptos::IntoView;
 use leptos::prelude::*;
 use models::cal::GeneralTime;
-use models::cal::time_cells::basic::BasicTimeCell;
+use models::cal::time_cells::basic::{BasicTimeCell, BasicTimeCellStoreFields};
 
 impl<S> CalGraphDraw<S, BasicTimeCell<GeneralTime>, GeneralTime>
     for CalGraph<S, BasicTimeCell<GeneralTime>>
@@ -70,8 +68,12 @@ where
             x: table_x,
             y: table_y,
         } = table_geo.offset;
-        GeneralBasicOverlay(
-            GeneralBasicOverlayProps::builder()
+        let points = vec![PointLabel {
+            loc: RelativeLocation { x: 0.5, y: 0.0 },
+            time: self.time_cell.start().get(),
+        }];
+        BasicOverlay(
+            BasicOverlayProps::builder()
                 .class("col-start-1 row-start-1")
                 .width(width)
                 .height(height)
@@ -79,6 +81,7 @@ where
                 .table_y_offset(table_y)
                 .table_width(table_width)
                 .table_height(table_height)
+                .points(points)
                 .build(),
         )
     }

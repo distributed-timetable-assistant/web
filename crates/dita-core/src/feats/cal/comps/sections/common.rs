@@ -22,11 +22,31 @@ use models::cal::{Cal, GeneralTime, GeneralTimeCell};
 use reactive_stores::{AtKeyed, Store, Subfield};
 use uuid::Uuid;
 
-impl Time for GeneralTime {}
-impl Time for YearTime {}
-impl Time for MonthTime {}
-impl Time for WeekTime {}
-impl Time for NaiveTime {}
+impl Time for GeneralTime {
+    fn get_label(&self) -> String {
+        self.time().to_string()
+    }
+}
+impl Time for YearTime {
+    fn get_label(&self) -> String {
+        todo!()
+    }
+}
+impl Time for MonthTime {
+    fn get_label(&self) -> String {
+        todo!()
+    }
+}
+impl Time for WeekTime {
+    fn get_label(&self) -> String {
+        self.time.to_string()
+    }
+}
+impl Time for NaiveTime {
+    fn get_label(&self) -> String {
+        self.to_string()
+    }
+}
 impl StoreCell
     for Subfield<
         AtKeyed<Store<Cal>, Cal, Uuid, Vec<GeneralTimeCell>>,

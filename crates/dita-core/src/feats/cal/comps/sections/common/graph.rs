@@ -8,7 +8,9 @@ use reactive_stores::StoreField;
 pub trait StoreCell: StoreField<Value = Self::Cell> + Clone + Track + Send + 'static {
     type Cell;
 }
-pub trait Time: Send + Sync + 'static {}
+pub trait Time: Clone + Send + Sync + 'static {
+    fn get_label(&self) -> String;
+}
 
 #[derive(Clone)]
 pub struct CalGraph<S, C>
@@ -74,7 +76,7 @@ pub struct RelativeLocation {
 #[derive(Debug, Clone, Copy)]
 pub struct PointLabel<T>
 where
-    T: Send + Sync + 'static,
+    T: Time,
 {
     pub loc: RelativeLocation,
     pub time: T,

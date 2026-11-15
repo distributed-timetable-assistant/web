@@ -1,11 +1,7 @@
 use crate::feats::cal::comps::sections::basic::bg::{BasicBg, BasicBgProps};
-use crate::feats::cal::comps::sections::basic::overlay::{
-    GeneralBasicOverlay, GeneralBasicOverlayProps,
-};
+use crate::feats::cal::comps::sections::basic::overlay::{BasicOverlay, BasicOverlayProps};
 use crate::feats::cal::comps::sections::basic::table::{BasicTable, BasicTableProps};
-use crate::feats::cal::comps::sections::common::graph::{
-    CalGraph, CalGraphDraw, Offset, Size, StoreCell, TableGeo,
-};
+use crate::feats::cal::comps::sections::common::graph::{CalGraph, CalGraphDraw, Offset, PointLabel, Size, StoreCell, TableGeo};
 use chrono::NaiveTime;
 use leptos::IntoView;
 use leptos::prelude::Signal;
@@ -69,8 +65,9 @@ where
             x: table_x,
             y: table_y,
         } = table_geo.offset;
-        GeneralBasicOverlay(
-            GeneralBasicOverlayProps::builder()
+        let points: Vec<PointLabel<NaiveTime>> = vec![];
+        BasicOverlay(
+            BasicOverlayProps::builder()
                 .class("col-start-1 row-start-1")
                 .width(width)
                 .height(height)
@@ -78,6 +75,7 @@ where
                 .table_y_offset(table_y)
                 .table_width(table_width)
                 .table_height(table_height)
+                .points(points)
                 .build(),
         )
     }
