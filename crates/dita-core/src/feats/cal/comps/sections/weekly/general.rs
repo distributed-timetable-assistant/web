@@ -14,7 +14,7 @@ impl<S> CalGraphDraw<S, WeeklyTimeCell<GeneralTime>, GeneralTime>
 where
     S: StoreCell<Cell = WeeklyTimeCell<GeneralTime>>,
 {
-    fn draw_bg(self, size: Size) -> (impl IntoView, TableGeo) {
+    fn draw_bg(&self, size: Size) -> (impl IntoView + use<S>, TableGeo) {
         let Size { width, height } = size;
         let bg = WeeklyBg(
             WeeklyBgProps::builder()
@@ -44,7 +44,7 @@ where
         )
     }
 
-    fn draw_table(self, table_geo: TableGeo) -> impl IntoView {
+    fn draw_table(&self, table_geo: TableGeo) -> impl IntoView + use<S> {
         let Size { width, height } = table_geo.size;
         let Offset { x, y } = table_geo.offset;
         WeeklyTable(
@@ -57,7 +57,7 @@ where
         )
     }
 
-    fn draw_overlay(self, size: Size, table_geo: TableGeo) -> impl IntoView {
+    fn draw_overlay(&self, size: Size, table_geo: TableGeo) -> impl IntoView + use<S> {
         let Size { width, height } = size;
         let Size {
             width: table_width,

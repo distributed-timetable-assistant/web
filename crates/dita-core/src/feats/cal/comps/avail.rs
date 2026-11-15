@@ -61,7 +61,7 @@ pub fn Avail(avail: AtKeyed<Store<Cal>, Cal, Uuid, Vec<GeneralTimeCell>>) -> imp
 
 fn get_collapse<S, C, T>(
     title: String,
-    graph: impl CalGraphDraw<S, C, T> + Send + 'static,
+    graph: impl CalGraphDraw<S, C, T> + Send + Sync + 'static,
 ) -> AnyView
 where
     S: StoreCell<Cell = C>,
@@ -78,7 +78,7 @@ where
                     CollapsibleContent(
                         CollapsibleContentProps::builder()
                             .children(ToChildren::to_children(move || {
-                                graph.draw("w-full h-[70px]")
+                                graph.draw("w-full h-[70px]".into())
                             }))
                             .build(),
                     ),

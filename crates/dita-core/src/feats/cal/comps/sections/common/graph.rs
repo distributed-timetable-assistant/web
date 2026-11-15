@@ -5,7 +5,7 @@ use leptos_use::use_resize_observer;
 use models::cal::time_cells::common::Cell;
 use reactive_stores::StoreField;
 
-pub trait StoreCell: StoreField<Value = Self::Cell> + Clone + Track + Send + 'static {
+pub trait StoreCell: StoreField<Value = Self::Cell> + Copy + Track + Send + Sync + 'static {
     type Cell;
 }
 pub trait Time: Clone + Send + Sync + 'static {
@@ -15,7 +15,7 @@ pub trait Time: Clone + Send + Sync + 'static {
 #[derive(Clone)]
 pub struct CalGraph<S, C>
 where
-    S: StoreField<Value = C>,
+    S: StoreCell<Cell = C>,
     C: Cell,
 {
     pub time_cell: S,
@@ -27,26 +27,25 @@ where
     C: Cell,
     T: Time,
 {
-    fn draw(self, class: impl Into<String>) -> impl IntoView {
+    fn draw(&self, class: String) -> impl IntoView + use<Self, S, C, T> {
         let parent_ref = NodeRef::<Div>::new();
         let size = make_react(parent_ref);
 
-        let (bg, table_geo) = self.clone().draw_bg(size);
-        let table = self.clone().draw_table(table_geo);
+        let (bg, table_geo) = self.draw_bg(size);
+        let table = self.draw_table(table_geo);
         let overlay = self.draw_overlay(size, table_geo);
 
-        let class = class.into();
         div()
             .node_ref(parent_ref)
             .class(tw_merge!("grid", class))
             .child((bg, table, overlay))
     }
 
-    fn draw_bg(self, size: Size) -> (impl IntoView, TableGeo);
+    fn draw_bg(&self, size: Size) -> (impl IntoView + use<Self, S, C, T>, TableGeo);
 
-    fn draw_table(self, table_geo: TableGeo) -> impl IntoView;
+    fn draw_table(&self, table_geo: TableGeo) -> impl IntoView + use<Self, S, C, T>;
 
-    fn draw_overlay(self, size: Size, table_geo: TableGeo) -> impl IntoView;
+    fn draw_overlay(&self, size: Size, table_geo: TableGeo) -> impl IntoView + use<Self, S, C, T>;
 }
 
 #[derive(Debug, Clone, Copy)]
